@@ -1,0 +1,133 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.6.16",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "left_door",
+            "rotation" : [
+                0.7071067690849304,
+                0,
+                0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                1.3103998899459839,
+                1.4559998512268066,
+                1.4559998512268066
+            ],
+            "translation" : [
+                -0.47999998927116394,
+                5.599999904632568,
+                1.399999976158142
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "name" : "door",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.28242677450180054,
+                    0.3341559171676636,
+                    0.8000000715255737,
+                    1
+                ],
+                "metallicFactor" : 0.5041322112083435,
+                "roughnessFactor" : 0.5
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Plane.002",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 24,
+            "max" : [
+                0.440000057220459,
+                1.4654943183898237e-16,
+                1.100000023841858
+            ],
+            "min" : [
+                -0.440000057220459,
+                -0.06868132948875427,
+                -1.100000023841858
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 24,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 24,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 36,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 288,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 288,
+            "byteOffset" : 288
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 192,
+            "byteOffset" : 576
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 72,
+            "byteOffset" : 768
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 840,
+            "uri" : "data:application/octet-stream;base64,sEfhvsL1KCXNzIw/sEfhvsL1KCXNzIw/sEfhvsL1KCXNzIw/sEfhPsL1KKXNzIw/sEfhPsL1KKXNzIw/sEfhPsL1KKXNzIw/sEfhvsL1KCXNzIy/sEfhvsL1KCXNzIy/sEfhvsL1KCXNzIy/sEfhPsL1KKXNzIy/sEfhPsL1KKXNzIy/sEfhPsL1KKXNzIy/sEfhvsyojL3NzIy/sEfhvsyojL3NzIy/sEfhvsyojL3NzIy/sEfhvsyojL3NzIw/sEfhvsyojL3NzIw/sEfhvsyojL3NzIw/sEfhPsyojL3NzIw/sEfhPsyojL3NzIw/sEfhPsyojL3NzIw/sEfhPsyojL3NzIy/sEfhPsyojL3NzIy/sEfhPsyojL3NzIy//f+/pQAAgL8AAACAAAAAAAAAAAAAAIC/AACAPwAAAAAAAACAAACAvwAAAAAAAACA/f+/pQAAgL8AAACAAAAAAAAAAAAAAIC//f+/pQAAgL8AAACAAAAAAAAAAAAAAIA/AACAPwAAAAAAAACAAACAvwAAAAAAAACA/f+/pQAAgL8AAACAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAgD8AAACAAACAPwAAAAAAAACAAAAAAAAAAAAAAIC/AAAAAAAAgD8AAACAAACAPwAAAAAAAACAAACAvwAAAAAAAACAAAAAAAAAAAAAAIC/AAAAAAAAgD8AAACAAACAvwAAAAAAAACAAAAAAAAAAAAAAIA/AAAAAAAAgD8AAACAAAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgD8AAAAAAACAPwAAAAAAAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAAAGAAoAAAAKAAQAEAAUABcAEAAXAA0AAwAJABUAAwAVABIACAACABEACAARAA4ACwAHAAwACwAMABYAAQAFABMAAQATAA8A"
+        }
+    ]
+}
