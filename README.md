@@ -1,8 +1,9 @@
 
 # elevator-simulation
 
-Elevator simulation for elevator cab controller (STM32)
-
+Elevator simulation for elevator cab controller (STM32).
+Is used `Three.js`,
+`3d models (gltf)` made in `blender`
 
 ## Demo
 
