@@ -13,6 +13,6 @@ https://levshx.github.io/projects/elevator/
   
 
 
-![App screenshot](/468x300?text=App+Screenshot+Here)
+![App screenshot](/screenshot.png)
 
   
