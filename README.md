@@ -12,7 +12,7 @@ https://levshx.github.io/projects/elevator/
 
   
 
-
-![App screenshot](/screenshot.png)
+<img src="/screenshot.png" 
+  width="600px" alt="App screenshot">
 
   
