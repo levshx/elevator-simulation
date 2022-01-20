@@ -7,10 +7,12 @@ import { GUI } from './lil-gui.module.min.js';
 let camera, scene, renderer;
 let max_stages = 30;
 var stages_count = 10;
-var lift, left_door, right_door, stages, lift_do = "stop", doors_do = "stop";
+var lift, left_door, right_door, stages, lift_do = "stop", doors_do = "stop", stage_status=true;
 var COMPORTs = {};
 var ComboBoxCOM;
 var current_call_stage = 0;
+
+
 
 var timer_stay_counter = 0;
 var stages_out_calls = [];
@@ -18,7 +20,7 @@ var stages_in_calls = [];
 
 var buttons_out_call = [];
 var buttons_in_call = [];
-var buttons_panel, cancel_button;
+var buttons_panel, cancel_out_button, cancel_in_button, close_in_button, open_in_button;
 var PanelParams;
 init();
 animate();
@@ -295,7 +297,7 @@ function init() {
 
 	createPanel();
 	createCallPanel();
-	updateCallOutPanel();
+	updateCallPanel();
 }
 
 function createCallPanel() {
@@ -304,10 +306,11 @@ function createCallPanel() {
 	document.body.appendChild(buttons_panel);
 }
 
-function updateCallOutPanel() {
-	buttons_panel.innerHTML = "<a>Calls panel</a>";
 
 
+function updateCallPanel() {
+	// Внешние
+	buttons_panel.innerHTML = "<a>Внешние вызовы</a>";
 	for (let i = 1; i < stages_count + 1; i++) {
 		buttons_out_call[i] = document.createElement('button');
 		buttons_out_call[i].className = "disable";
@@ -322,58 +325,98 @@ function updateCallOutPanel() {
 	let br2 = document.createElement('br');
 	buttons_panel.append(br);
 	buttons_panel.append(br2);
-	cancel_button = document.createElement('button');
-	cancel_button.innerHTML = "S";
-	cancel_button.onclick = function () {
+	cancel_out_button = document.createElement('button');
+	cancel_out_button.innerHTML = "Отмена";
+	cancel_out_button.className = "big-button";
+	cancel_out_button.onclick = function () {
 		panelCallOutCancel();
 		for (let i = 1; i < stages_count + 1; i++) {
 			buttons_out_call[i].className = "disable";
 		}
 	}
-	buttons_panel.append(cancel_button);
+	buttons_panel.append(cancel_out_button);
+	
+	// Внутренние
+	let br3 = document.createElement('br');
+	let br4 = document.createElement('br');
+	buttons_panel.append(br3);
+	buttons_panel.append(br4);
+	var label_inpanel = document.createElement('a');
+	label_inpanel.innerHTML = "Внутренние вызовы";
+	buttons_panel.append(label_inpanel);
+	for (let i = 1; i < stages_count + 1; i++) {
+		buttons_in_call[i] = document.createElement('button');
+		buttons_in_call[i].className = "disable";
+		buttons_in_call[i].innerHTML = i;
+		buttons_in_call[i].onclick = function () {
+			panelCallIn(i);
+			buttons_in_call[i].className = "active";
+		}
+		buttons_panel.append(buttons_in_call[i]);
+	}
+	let br5 = document.createElement('br');
+	let br6 = document.createElement('br');
+	buttons_panel.append(br5);
+	buttons_panel.append(br6);
+	cancel_in_button = document.createElement('button');
+	cancel_in_button.innerHTML = "Отмена";
+	cancel_in_button.className = "big-button";
+	cancel_in_button.onclick = function () {
+		panelCallInCancel();
+		for (let i = 1; i < stages_count + 1; i++) {
+			buttons_in_call[i].className = "disable";
+		}
+	}
+	buttons_panel.append(cancel_in_button);
+	open_in_button = document.createElement('button'); 
+	open_in_button.innerHTML = "< >";
+	close_in_button = document.createElement('button'); 
+	close_in_button.innerHTML = "> <";
+	buttons_panel.append(open_in_button);
+	buttons_panel.append(close_in_button);
 }
 
 
 
 function createPanel() {
 	const gui = new GUI();
-	gui.title('Elevator control');
+	gui.title('Конфигуратор лифта');
 
 	PanelParams = {
-		'Update list': function () {
+		'Обновить список COM': function () {
 			//alert("Update"); 
 			COMPORTs = ['COM54', 'COM2'];			
 			ComboBoxCOM.destroy()
 			ComboBoxCOM = folderCOMPORT.add(PanelParams, 'COM PORT', COMPORTs);
 		},
-		'Connect to COM PORT': function () {
-			if (ComboBoxCOM.getValue() != "Select COM Port") {
+		'Подключиться к COM PORT': function () {
+			if (ComboBoxCOM.getValue() != "Выберите COM Port") {
 				// Подключение к плате
 				eel.connectSerial(ComboBoxCOM.getValue());
 			}
 			else {
-				alert("Error: Select COM port in list.");				
+				alert("Error: Выберите COM Port.");				
 			}
 
 		},
-		'Elevator stop': function () { lift_do = "stop"; },
-		'Doors stop': function () { doors_do = "stop"; },
-		'Doors open': function () { doors_do = "open"; },
-		'Doors close': function () { doors_do = "close"; },
-		'Elevator &#8593;': function () { lift_do = "up"; },
-		'Elevator &#8595;': function () { lift_do = "down"; },
-		'Number of Floors': 10,
+		'Остановить лифт': function () { lift_do = "stop"; },
+		'Остановить двери': function () { doors_do = "stop"; },
+		'Открыть двери': function () { doors_do = "open"; },
+		'Закрыть двери': function () { doors_do = "close"; },
+		'Лифт &#8593;': function () { lift_do = "up"; },
+		'Лифт &#8595;': function () { lift_do = "down"; },
+		'Количество этажей': 10,
 		'ElevatorPosition': 1,
 		'CAMERA X': 5.1,
 		'CAMERA Y': 0,
 		'CAMERA Z': 10,
-		'COM PORT': "Select COM Port"
+		'COM PORT': "Выберите COM Port"
 	};
 
 	const folderCOMPORT = gui.addFolder('COM PORT');
 
-	folderCOMPORT.add(PanelParams, 'Update list');
-	folderCOMPORT.add(PanelParams, 'Connect to COM PORT');
+	folderCOMPORT.add(PanelParams, 'Обновить список COM');
+	folderCOMPORT.add(PanelParams, 'Подключиться к COM PORT');
 	ComboBoxCOM = folderCOMPORT.add(PanelParams, 'COM PORT', COMPORTs);
 
 	const folderCamera = gui.addFolder('Camera');
@@ -389,10 +432,11 @@ function createPanel() {
 	folderCamera.add(PanelParams, 'CAMERA Z', 0, 10).listen().onChange(function (weight) {
 		camera.position.z = weight;
 	});;
+	
+	
+	const folderElevatorConfig = gui.addFolder('Конфигурация лифта');
 
-	const folderElevatorConfig = gui.addFolder('Elevator configuration');
-
-	folderElevatorConfig.add(PanelParams, 'Number of Floors', 2, max_stages, 1).listen().onChange(function (weight) {
+	folderElevatorConfig.add(PanelParams, 'Количество этажей', 2, max_stages, 1).listen().onChange(function (weight) {
 		;
 		stages_count = weight;
 		right_door.position.y = 0;
@@ -404,20 +448,26 @@ function createPanel() {
 		doors_do = "closed";
 		left_door.position.x = 0;
 		right_door.position.x = 0;
-		updateCallOutPanel();
+		updateCallPanel();
 	});;
 
-	const folderElevator = gui.addFolder('Elevator simulation');
+	const folderElevator = gui.addFolder('Симуляция лифта');
 
 	folderElevator.add(PanelParams, 'ElevatorPosition', 1, max_stages).listen().disable();
 
 
-	folderElevator.add(PanelParams, 'Elevator stop');
-	folderElevator.add(PanelParams, 'Elevator &#8593;');
-	folderElevator.add(PanelParams, 'Elevator &#8595;');
-	folderElevator.add(PanelParams, 'Doors stop');
-	folderElevator.add(PanelParams, 'Doors open');
-	folderElevator.add(PanelParams, 'Doors close');
+	folderElevator.add(PanelParams, 'Остановить лифт');
+	folderElevator.add(PanelParams, 'Лифт &#8593;');
+	folderElevator.add(PanelParams, 'Лифт &#8595;');
+	folderElevator.add(PanelParams, 'Остановить двери');
+	folderElevator.add(PanelParams, 'Открыть двери');
+	folderElevator.add(PanelParams, 'Закрыть двери');
+
+
+	folderCamera.close();
+	folderElevator.close();
+	folderElevatorConfig.close();
+	folderCOMPORT.close();
 }
 
 function onWindowResize() {
@@ -435,14 +485,19 @@ function animate() {
 
 	requestAnimationFrame(animate);
 
-	PanelParams.ElevatorPosition = (5.1 + lift.position.y) / 5.1
+	PanelParams.ElevatorPosition = (5.1 + lift.position.y) / 5.1;
 	//controls.update(); // required if damping enabled
 	switch (lift_do) {
 		case "up":
-			lift.position.y += 0.02;
-			right_door.position.y += 0.02;
-			left_door.position.y += 0.02;
-			camera.position.y += 0.02;
+			if (((5.1 + lift.position.y) / 5.1) < (stages_count+0.1)) {
+				lift.position.y += 0.02;
+				right_door.position.y += 0.02;
+				left_door.position.y += 0.02;
+				camera.position.y += 0.02;	
+			}
+			else {
+				lift_do = "stop";
+			}			
 			break;
 		case "down":
 			if (lift.position.y > -2.5) {
@@ -450,6 +505,10 @@ function animate() {
 				right_door.position.y -= 0.02;
 				left_door.position.y -= 0.02;
 				camera.position.y -= 0.02;
+			}
+			else
+			{
+				lift_do = "stop";
 			}
 			break;
 
@@ -493,11 +552,13 @@ function animate() {
 
 function liftLogic() {
 	if (current_call_stage != 0) {
+		stage_status = false;
 		if (current_call_stage > (5.1 + lift.position.y) / 5.1) {
 			lift_do = "up";
 			if ((5.12 + lift.position.y) / 5.1 > current_call_stage) {
 				current_call_stage = 0;
 				lift_do = "stop";
+				stage_status = true;
 			}
 		}
 		else {
@@ -505,6 +566,7 @@ function liftLogic() {
 			if ((5.08 + lift.position.y) / 5.1 < current_call_stage) {
 				current_call_stage = 0;
 				lift_do = "stop";
+				stage_status = true;
 			}
 		}
 	}
@@ -522,6 +584,7 @@ function panelCallIn(number) {
 	if (!duplicate) {
 		stages_in_calls.push(number);
 	}
+	console.log("Вызовы кабины: "+stages_in_calls)
 }
 
 function panelCallOut(number) {
@@ -538,6 +601,11 @@ function panelCallOut(number) {
 }
 
 function panelCallOutCancel() {
+	current_call_stage = 0;
+	lift_do = "stop";
+}
+
+function panelCallInCancel() {
 	current_call_stage = 0;
 	lift_do = "stop";
 }
